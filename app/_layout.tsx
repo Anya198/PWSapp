@@ -24,8 +24,7 @@ export default function RootLayout() {
   }, [setSession]);
 
   useEffect(() => {
-    // Wait until navigation is fully mounted
-    if (!segments || !rootNavigationState?.key) return;
+    if (!rootNavigationState?.key || !segments) return;
 
     const inAuthGroup = segments[0] === '(auth)';
     
@@ -35,6 +34,10 @@ export default function RootLayout() {
       router.replace('/(app)');
     }
   }, [session, segments, router, rootNavigationState?.key]);
+
+  if (!rootNavigationState?.key) {
+    return null; // Prevents "Attempted to navigate before mounting" error and blank screen crash
+  }
 
   return <Slot />;
 }
