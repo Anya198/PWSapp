@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Slot } from 'expo-router';
-import { Platform, View, StyleSheet } from 'react-native';
+import { Platform, View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useAuthStore } from '../src/hooks/useAuthStore';
 import { supabase } from '../src/lib/supabase';
 import './global.css';
 
-// iPhone 15 dimensions (logical pixels)
 const IPHONE_WIDTH = 393;
 const IPHONE_HEIGHT = 852;
+// Only show the phone frame when the browser window is clearly desktop-sized
+const DESKTOP_BREAKPOINT = 768;
 
 export default function RootLayout() {
   const { session, setSession } = useAuthStore();
   const [isReady, setIsReady] = useState(false);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -28,8 +30,8 @@ export default function RootLayout() {
 
   if (!isReady) return null;
 
-  // On web, wrap in an iPhone 15 frame centered on screen
-  if (Platform.OS === 'web') {
+  // On web AND a desktop-sized viewport: show the iPhone preview frame
+  if (Platform.OS === 'web' && width >= DESKTOP_BREAKPOINT) {
     return (
       <View style={styles.webRoot}>
         <View style={styles.phoneFrame}>
@@ -39,6 +41,7 @@ export default function RootLayout() {
     );
   }
 
+  // On native OR a real mobile browser: fill the screen naturally
   return <Slot />;
 }
 
@@ -56,12 +59,10 @@ const styles = StyleSheet.create({
     borderRadius: 54,
     overflow: 'hidden',
     backgroundColor: '#EFF7F3',
-    // Phone drop shadow
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 24 },
     shadowOpacity: 0.3,
     shadowRadius: 48,
-    // Black border like an iPhone bezel
     borderWidth: 10,
     borderColor: '#111111',
   },
