@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import { Button } from '../../src/components/ui/Button';
 import { Input } from '../../src/components/ui/Input';
 import { supabase } from '../../src/lib/supabase';
 import { Ionicons } from '@expo/vector-icons';
+
+const C = {
+  bg: '#EFF7F3',
+  dark: '#0B2A20',
+  muted: '#7F918C',
+  primary: '#118a7e',
+  card: '#FFFFFF',
+  icon: '#e2eedf',
+};
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -21,69 +30,76 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-surface">
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1 justify-center px-8"
-      >
-        <View className="items-center mb-10 mt-10">
-          <View className="w-32 h-32 bg-[#e2eedf] rounded-[40px] mb-8 items-center justify-center transform rotate-6">
-            <Ionicons name="leaf" size={48} color="#118a7e" className="transform -rotate-6" />
+    <SafeAreaView style={styles.root}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {/* Hero Icon */}
+          <View style={styles.iconWrap}>
+            <View style={styles.iconBox}>
+              <Ionicons name="leaf" size={52} color={C.primary} />
+            </View>
           </View>
-          <Text className="text-text-dark text-3xl font-bold mb-1 text-center">
-            Welcome to <Text className="text-primary">PWS</Text>
-          </Text>
-          <Text className="text-text-dark text-3xl font-bold mb-4">Login Now!</Text>
-          <Text className="text-text-light text-center px-4 leading-6">
-            Log in to access exclusive features, track your activity, and stay updated on your wellness journey.
-          </Text>
-        </View>
 
-        {error ? <Text className="text-red-500 mb-4 text-center px-4">{error}</Text> : null}
+          {/* Headline */}
+          <View style={styles.headlineWrap}>
+            <Text style={styles.headlineLine1}>
+              Welcome to <Text style={{ color: C.primary }}>PWS</Text>
+            </Text>
+            <Text style={styles.headlineLine2}>Login Now!</Text>
+            <Text style={styles.sub}>
+              Log in to access exclusive features, track your activity, and stay updated on your wellness journey.
+            </Text>
+          </View>
 
-        <Input
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          placeholder="you@example.com"
-        />
-        
-        <Input
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          placeholder="••••••••"
-        />
+          {/* Error */}
+          {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <View className="mt-2 space-y-4">
-          <Button title="Continue with Email" onPress={handleLogin} isLoading={loading} className="mb-4" />
-          
-          <Button 
-            title="Continue with Google" 
+          {/* Form */}
+          <Input label="Email" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="you@example.com" />
+          <Input label="Password" value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
+
+          {/* Buttons */}
+          <Button title="Continue with Email" onPress={handleLogin} isLoading={loading} style={{ marginTop: 8 }} />
+          <Button
+            title="  Continue with Google"
             variant="secondary"
-            icon={<Ionicons name="logo-google" size={20} color="#0B2A20" style={{ position: 'absolute', left: 24 }} />}
+            icon={<Ionicons name="logo-google" size={20} color={C.dark} style={{ marginRight: 8 }} />}
             onPress={() => {}}
-            className="mb-4"
           />
-          
-          <Button 
-            title="Continue with Apple" 
+          <Button
+            title="  Continue with Apple"
             variant="primary"
-            icon={<Ionicons name="logo-apple" size={24} color="#FFFFFF" style={{ position: 'absolute', left: 24 }} />}
-            onPress={() => {}} 
+            icon={<Ionicons name="logo-apple" size={22} color="#fff" style={{ marginRight: 8 }} />}
+            onPress={() => {}}
           />
-        </View>
 
-        <View className="mt-8 flex-row justify-center pb-8">
-          <Text className="text-text-light font-medium">Don't have an account? </Text>
-          <Link href="/(auth)/register" className="text-primary font-bold">
-            Create one
-          </Link>
-        </View>
-      </KeyboardAvoidingView>
+          {/* Footer */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Don't have an account? </Text>
+            <Link href="/(auth)/register" style={styles.footerLink}>Create one</Link>
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: '#EFF7F3' },
+  scroll: { flexGrow: 1, paddingHorizontal: 28, paddingBottom: 40 },
+  iconWrap: { alignItems: 'center', marginTop: 48, marginBottom: 28 },
+  iconBox: {
+    width: 120, height: 120, borderRadius: 36,
+    backgroundColor: '#e2eedf',
+    alignItems: 'center', justifyContent: 'center',
+    transform: [{ rotate: '6deg' }],
+  },
+  headlineWrap: { alignItems: 'center', marginBottom: 32 },
+  headlineLine1: { fontSize: 30, fontWeight: '800', color: '#0B2A20', textAlign: 'center' },
+  headlineLine2: { fontSize: 30, fontWeight: '800', color: '#0B2A20', textAlign: 'center', marginBottom: 12 },
+  sub: { fontSize: 15, color: '#7F918C', textAlign: 'center', lineHeight: 22, paddingHorizontal: 8 },
+  error: { color: '#ef4444', textAlign: 'center', marginBottom: 12 },
+  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 },
+  footerText: { color: '#7F918C', fontSize: 15 },
+  footerLink: { color: '#118a7e', fontWeight: '700', fontSize: 15 },
+});

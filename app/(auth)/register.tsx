@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import { View, Text, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Link } from 'expo-router';
 import { Button } from '../../src/components/ui/Button';
 import { Input } from '../../src/components/ui/Input';
 import { supabase } from '../../src/lib/supabase';
@@ -16,82 +16,52 @@ export default function RegisterScreen() {
   const handleRegister = async () => {
     setLoading(true);
     setError('');
-    
     const { data, error: authError } = await supabase.auth.signUp({ email, password });
-    
-    if (authError) {
-      setError(authError.message);
-      setLoading(false);
-      return;
-    }
-    
+    if (authError) { setError(authError.message); setLoading(false); return; }
     if (data.user) {
-      await supabase.from('users').insert([
-        { id: data.user.id, email, full_name: fullName, role: 'client' }
-      ]);
+      await supabase.from('users').insert([{ id: data.user.id, email, full_name: fullName, role: 'client' }]);
     }
-    
     setLoading(false);
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-surface">
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingHorizontal: 32, paddingVertical: 40 }}>
-          <View className="items-center mb-8">
-            <View className="w-20 h-20 bg-[#e2eedf] rounded-3xl mb-4 items-center justify-center transform rotate-3">
-              <Ionicons name="person-add" size={32} color="#118a7e" className="transform -rotate-3" />
+    <SafeAreaView style={styles.root}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          <View style={styles.iconWrap}>
+            <View style={styles.iconBox}>
+              <Ionicons name="person-add" size={44} color="#118a7e" />
             </View>
-            <Text className="text-text-dark text-3xl font-bold mb-2 text-center">
-              Join <Text className="text-primary">PWS</Text>
-            </Text>
-            <Text className="text-text-light text-center leading-5 px-4">
-              Create an account in minutes to access exclusive features and track your activity.
-            </Text>
           </View>
-
-          {error ? <Text className="text-red-500 mb-4 text-center">{error}</Text> : null}
-
-          <Input
-            label="Full Name"
-            value={fullName}
-            onChangeText={setFullName}
-            autoCapitalize="words"
-            placeholder="Jane Doe"
-          />
-
-          <Input
-            label="Email Address"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholder="you@example.com"
-          />
-          
-          <Input
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholder="••••••••"
-          />
-
-          <View className="mt-6 space-y-4">
-            <Button title="Create Account" onPress={handleRegister} isLoading={loading} className="mb-4" />
+          <View style={styles.headlineWrap}>
+            <Text style={styles.headline}>Join <Text style={{ color: '#118a7e' }}>PWS</Text></Text>
+            <Text style={styles.sub}>Create an account to access exclusive features and track your activity.</Text>
           </View>
-
-          <View className="mt-8 flex-row justify-center">
-            <Text className="text-text-light font-medium">Already have an account? </Text>
-            <Link href="/(auth)/login" className="text-primary font-bold">
-              Sign In
-            </Link>
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+          <Input label="Full Name" value={fullName} onChangeText={setFullName} autoCapitalize="words" placeholder="Jane Doe" />
+          <Input label="Email Address" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="you@example.com" />
+          <Input label="Password" value={password} onChangeText={setPassword} secureTextEntry placeholder="••••••••" />
+          <Button title="Create Account" onPress={handleRegister} isLoading={loading} style={{ marginTop: 8 }} />
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Already have an account? </Text>
+            <Link href="/(auth)/login" style={styles.footerLink}>Sign In</Link>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: '#EFF7F3' },
+  scroll: { flexGrow: 1, paddingHorizontal: 28, paddingBottom: 40 },
+  iconWrap: { alignItems: 'center', marginTop: 48, marginBottom: 28 },
+  iconBox: { width: 100, height: 100, borderRadius: 28, backgroundColor: '#e2eedf', alignItems: 'center', justifyContent: 'center' },
+  headlineWrap: { alignItems: 'center', marginBottom: 32 },
+  headline: { fontSize: 30, fontWeight: '800', color: '#0B2A20', textAlign: 'center', marginBottom: 10 },
+  sub: { fontSize: 15, color: '#7F918C', textAlign: 'center', lineHeight: 22, paddingHorizontal: 8 },
+  error: { color: '#ef4444', textAlign: 'center', marginBottom: 12 },
+  footer: { flexDirection: 'row', justifyContent: 'center', marginTop: 24 },
+  footerText: { color: '#7F918C', fontSize: 15 },
+  footerLink: { color: '#118a7e', fontWeight: '700', fontSize: 15 },
+});
