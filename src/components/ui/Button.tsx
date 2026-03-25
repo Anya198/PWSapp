@@ -3,23 +3,26 @@ import { TouchableOpacity, Text, TouchableOpacityProps, ActivityIndicator } from
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'accent' | 'outline';
+  icon?: React.ReactNode;
   isLoading?: boolean;
 }
 
-export function Button({ title, variant = 'primary', isLoading, className = '', ...props }: ButtonProps) {
-  const baseStyles = 'w-full rounded-lg py-4 flex-row justify-center items-center';
+export function Button({ title, variant = 'primary', icon, isLoading, className = '', ...props }: ButtonProps) {
+  const baseStyles = 'w-full rounded-2xl py-4 flex-row justify-center items-center shadow-sm';
   
   const variants = {
-    primary: 'bg-primary',
-    secondary: 'bg-monochrome-800',
-    outline: 'bg-transparent border border-monochrome-700',
+    primary: 'bg-button-dark',
+    secondary: 'bg-button-light shadow-none',
+    accent: 'bg-primary',
+    outline: 'bg-transparent border border-gray-300 shadow-none',
   };
 
   const textVariants = {
-    primary: 'text-monochrome-900 font-bold',
-    secondary: 'text-white font-medium',
-    outline: 'text-white font-medium',
+    primary: 'text-white font-bold',
+    secondary: 'text-text-dark font-bold',
+    accent: 'text-white font-bold',
+    outline: 'text-text-dark font-bold',
   };
 
   return (
@@ -28,11 +31,14 @@ export function Button({ title, variant = 'primary', isLoading, className = '', 
       {...props}
     >
       {isLoading ? (
-        <ActivityIndicator color={variant === 'primary' ? '#0D0D0D' : '#FFFFFF'} />
+        <ActivityIndicator color={variant === 'secondary' ? '#0B2A20' : '#FFFFFF'} />
       ) : (
-        <Text className={`text-center text-lg ${textVariants[variant]}`}>
-          {title}
-        </Text>
+        <>
+          {icon && <React.Fragment>{icon}</React.Fragment>}
+          <Text className={`text-center text-lg ${textVariants[variant]}`}>
+            {title}
+          </Text>
+        </>
       )}
     </TouchableOpacity>
   );

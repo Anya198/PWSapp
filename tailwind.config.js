@@ -8,14 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#14C8B1",
-        monochrome: {
-          900: "#0D0D0D",
-          800: "#1A1A1A",
-          700: "#2B2B2B",
-          100: "#F5F5F5",
-          50: "#FFFFFF"
+        primary: "#118a7e",
+        surface: "#EFF7F3",
+        card: "#FFFFFF",
+        text: {
+          dark: "#0B2A20",
+          light: "#7F918C"
+        },
+        button: {
+          dark: "#062C22",
+          light: "#E8EAE8"
         }
+      },
+      fontFamily: {
+        sans: ['System', 'Arial', 'sans-serif'],
       }
     },
   },

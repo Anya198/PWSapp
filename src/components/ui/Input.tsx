@@ -8,16 +8,16 @@ interface InputProps extends TextInputProps {
 
 export function Input({ label, error, className = '', ...props }: InputProps) {
   return (
-    <View className={`w-full mb-4 ${className}`}>
-      <Text className="text-monochrome-100 text-sm mb-2 font-medium">{label}</Text>
+    <View className={`w-full mb-5 ${className}`}>
+      <Text className="text-text-dark text-sm mb-2 font-bold px-2">{label}</Text>
       <TextInput
-        placeholderTextColor="#555"
-        className={`w-full bg-monochrome-800 text-white rounded-lg px-4 py-4 border ${
-          error ? 'border-red-500' : 'border-monochrome-700'
+        placeholderTextColor="#A0AAB2"
+        className={`w-full bg-white text-text-dark rounded-2xl px-5 py-4 shadow-sm border ${
+          error ? 'border-red-500' : 'border-transparent'
         } focus:border-primary`}
         {...props}
       />
-      {error && <Text className="text-red-500 text-xs mt-1">{error}</Text>}
+      {error && <Text className="text-red-500 text-xs mt-2 px-2">{error}</Text>}
     </View>
   );
 }
