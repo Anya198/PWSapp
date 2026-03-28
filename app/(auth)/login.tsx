@@ -144,7 +144,7 @@ export default function LoginScreen() {
           <AnimatedCard delay={320} style={styles.buttonGroup}>
             <Button
               title="Sign In  →  Demo"
-              onPress={() => router.replace('/')}
+              onPress={() => router.replace('/(app)/onboarding')}
               isLoading={loading}
             />
             <Button
