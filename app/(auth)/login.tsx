@@ -175,7 +175,7 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#EFF7F3' },
+  root: { flex: 1, backgroundColor: '#0B2A20' }, // Dark Background
   scroll: { flexGrow: 1, paddingHorizontal: 28, paddingBottom: 40 },
 
   heroWrap: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#0B2A20',
+    color: '#EFF7F3', // Light text
     letterSpacing: -0.5,
   },
 
@@ -205,21 +205,23 @@ const styles = StyleSheet.create({
   headline: {
     fontSize: 40,
     fontWeight: '900',
-    color: '#0B2A20',
+    color: '#EFF7F3', // Light text
     lineHeight: 46,
     letterSpacing: -1.2,
     marginBottom: 10,
   },
   sub: {
     fontSize: 16,
-    color: '#4A7064',
+    color: '#4A7064', // Muted text
     lineHeight: 24,
   },
 
   errorBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fef2f2',
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    borderWidth: 1,
+    borderColor: '#ef4444',
     borderRadius: 12,
     padding: 12,
     marginBottom: 16,
@@ -228,15 +230,12 @@ const styles = StyleSheet.create({
   errorText: { color: '#ef4444', fontSize: 14, flex: 1 },
 
   card: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#0F3B2A', // Darker card background
     borderRadius: 24,
     padding: 20,
     marginBottom: 16,
-    shadowColor: '#0B2A20',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
-    shadowRadius: 20,
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.05)',
   },
 
   buttonGroup: { marginBottom: 8 },
@@ -248,5 +247,5 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
   },
   footerText: { color: '#7F918C', fontSize: 15 },
-  footerLink: { color: '#118a7e', fontWeight: '700', fontSize: 15 },
+  footerLink: { color: '#00D09C', fontWeight: '700', fontSize: 15 },
 });
