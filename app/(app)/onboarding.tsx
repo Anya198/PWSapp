@@ -349,14 +349,14 @@ function StepBiometric({ control, errors, heightVal, weightVal, onHeightChange, 
           control={control}
           name="display_name"
           render={({ field: { onChange, value } }) => (
-            <Input label="Full Name" value={value ?? ''} onChangeText={onChange} placeholder="John Doe" error={errors.display_name?.message} />
+            <Input variant="light" label="Full Name" value={value ?? ''} onChangeText={onChange} placeholder="John Doe" error={errors.display_name?.message} />
           )}
         />
         <Controller
           control={control}
           name="age"
           render={({ field: { onChange, value } }) => (
-            <Input label="Age" keyboardType="numeric" value={value ?? ''} onChangeText={onChange} placeholder="32" error={errors.age?.message} />
+            <Input variant="light" label="Age" keyboardType="numeric" value={value ?? ''} onChangeText={onChange} placeholder="32" error={errors.age?.message} />
           )}
         />
       </AnimatedCard>
