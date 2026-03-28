@@ -651,8 +651,8 @@ export default function OnboardingScreen() {
     defaultValues: {
       phase: 'TPOP',
       activity_level: 'moderate',
-      display_name: '',
-      age: '',
+      display_name: 'Guest Demo',
+      age: '30',
       gender: 'male',
       height: '175',
       weight: '75',
