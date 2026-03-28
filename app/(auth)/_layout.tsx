@@ -7,5 +7,11 @@ export default function AuthLayout() {
   // If user is already logged in, redirect them into the app
   if (session) return <Redirect href="/(app)" />;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="splash" />
+      <Stack.Screen name="login" />
+      <Stack.Screen name="register" />
+    </Stack>
+  );
 }
