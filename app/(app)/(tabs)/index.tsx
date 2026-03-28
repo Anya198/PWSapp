@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
   joinBtn: { backgroundColor: C.primary, paddingVertical: 10, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
   joinBtnText: { color: C.dark, fontWeight: '700', fontSize: 12 },
 
-  banner: { marginTop: 32, paddingHorizontal: 16, alignItems: 'center' },
+  banner: { marginTop: 16, paddingHorizontal: 16, alignItems: 'center' },
   bannerText: { color: C.muted, fontSize: 14, fontStyle: 'italic', textAlign: 'center', lineHeight: 22 }
 });

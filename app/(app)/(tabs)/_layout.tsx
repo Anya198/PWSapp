@@ -16,15 +16,15 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: C.primary,
-        tabBarInactiveTintColor: C.muted,
+        tabBarInactiveTintColor: '#7F918C', // Lighter contrast for inactive state
         tabBarStyle: {
           backgroundColor: C.card,
           borderTopColor: C.border,
           borderTopWidth: 1,
           paddingTop: 8,
-          // Extra height for iPhone safe area padding
-          height: Platform.OS === 'ios' ? 84 : 64,
-          paddingBottom: Platform.OS === 'ios' ? 24 : 8,
+          // Fixed cutoff issue by treating Web same as iOS for the mockup frame
+          height: Platform.OS === 'android' ? 64 : 84,
+          paddingBottom: Platform.OS === 'android' ? 8 : 24,
         },
         tabBarLabelStyle: {
           fontSize: 11,
